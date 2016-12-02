@@ -1,5 +1,3 @@
-var sites =  {};
-var currentSite;
 
 //removed listeners and just checked the website when incrementing timer
 /*
@@ -16,12 +14,15 @@ if ("onhashchange" in window) {
 }
 */
 
-//fix bug where it messes up while looking at inspection page. 
+var currentSite;
+
+//BUG when inspecting background page it will throw erros
+//set interval runs every second which acts as the timer
 setInterval(timer, 1000);
 function timer() {
     updateCurrentSite();
-    sites[currentSite]++;
-    console.log(currentSite + " " + sites[currentSite]);
+    localStorage.setItem(currentSite,Number(localStorage.getItem(currentSite)) + 1);
+    console.log(currentSite + " " + localStorage.getItem(currentSite));
 }
 
 var updateCurrentSite = function () {
@@ -29,8 +30,9 @@ var updateCurrentSite = function () {
     var url = tabs[0].url;
     var parser = document.createElement('a');
     parser.href = url;
-    if (!(parser.host in sites))
-       sites[parser.host] = 1;
     currentSite = parser.host;
+    if (localStorage.getItem(currentSite) === null)
+      localStorage.setItem(currentSite) = 1;
+
   });
 }
