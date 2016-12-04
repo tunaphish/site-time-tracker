@@ -22,7 +22,8 @@ setInterval(timer, 1000);
 function timer() {
     updateCurrentSite();
     localStorage.setItem(currentSite,Number(localStorage.getItem(currentSite)) + 1);
-    console.log(currentSite + " " + localStorage.getItem(currentSite));
+    console.log(currentSite);
+    updateTimer(localStorage.getItem(currentSite));
 }
 
 var updateCurrentSite = function () {
@@ -35,4 +36,18 @@ var updateCurrentSite = function () {
       localStorage.setItem(currentSite) = 1;
 
   });
+}
+
+var updateTimer = function(time) {
+  var hours = Math.floor(time / 3600);
+  var minutes = Math.floor(time % 3600 / 60);
+  var seconds = Math.floor(time % 3600 % 60);
+  console.log(hours + ":" + minutes + ":" + seconds);
+
+  var views = chrome.extension.getViews({
+    type: "popup"
+  });
+  for (var i = 0; i < views.length; i++) {
+    views[i].document.getElementById('lifetime-timer').innerHTML = "Lifetime: " + hours + ":" + minutes + ":" + seconds;
+  }
 }
