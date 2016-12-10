@@ -3,12 +3,22 @@
 <html>
     <head>
         <title>Popup</title>
-        <script src="popup.js"></script>
+        <style>
+          body {
+            font-family: "Segoe UI", "Lucida Grande", Tahoma, sans-serif;
+            font-size: 100%;
+          }
+          #status {
+            /* avoid an excessively wide status text */
+            overflow: hidden;
+            min-width: 150px;
+          }
+        </style>
     </head>
-    <body>
-      <p>Site: NULL</p>
-      <p>Daily: NULL</p>
-      <p>Weekly: NULL</p>
-      <p id="lifetime-timer" value="m">Lifetime: NULL</p>
+    <body id="status">
+      <p id="site-title"></p>
+      <p id="daily-timer"></p>
+      <p id="weekly-timer"></p>
+      <p id="lifetime-timer"></p>
     </body>
 </html>
