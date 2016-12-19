@@ -1,12 +1,26 @@
 var currentSite;
 
+/*(function (){
+  var views = chrome.extension.getViews({
+    type: "popup"
+  });
+  views[0].document.getElementById("sites-link").addEventListener("click", displaySites);
+  function displaySites() {
+    preventDefault();
+    console.log("clicked");
+  };
+})();*/
+
 //set interval runs every second which acts as the timer
 setInterval(timer, 1000);
 function timer() {
     updateCurrentSite();
-    //update daily, weekly, and lifetime-timer
+    //update session and lifetime-timer
+    if (localStorage.getItem(currentSite) === null) localStorage.setItem(currentSite) = 0;
     localStorage.setItem(currentSite,Number(localStorage.getItem(currentSite)) + 1);
-    updateTimer(localStorage.getItem(currentSite));
+    if (sessionStorage.getItem(currentSite) === null) sessionStorage.setItem(currentSite, 0);
+    sessionStorage.setItem(currentSite,Number(sessionStorage.getItem(currentSite)) + 1);
+    updatePopup(localStorage.getItem(currentSite), sessionStorage.getItem(currentSite));
 }
 
 var updateCurrentSite = function () {
@@ -15,20 +29,15 @@ var updateCurrentSite = function () {
     var parser = document.createElement('a');
     parser.href = url;
     currentSite = parser.host;
-    if (localStorage.getItem(currentSite) === null)
-      localStorage.setItem(currentSite) = 0;
   });
 }
 
-var updateTimer = function(time) {
-  var hours = Math.floor(time / 3600);
-  var minutes = Math.floor(time % 3600 / 60);
-  var seconds = Math.floor(time % 3600 % 60);
-
+var updatePopup = function(localTime, sessionTime) {
   //update popup view
   var views = chrome.extension.getViews({
     type: "popup"
   });
   views[0].document.getElementById('site-title').innerHTML = currentSite;
-  views[0].document.getElementById('lifetime-timer').innerHTML = "Lifetime: " + new Date(time * 1000).toISOString().substr(11, 8);
+  views[0].document.getElementById('session-timer').innerHTML = "Session: " + new Date(sessionTime * 1000).toISOString().substr(11, 8);
+  views[0].document.getElementById('lifetime-timer').innerHTML = "Lifetime: " + new Date(localTime * 1000).toISOString().substr(11, 8);
 }
