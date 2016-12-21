@@ -14,12 +14,12 @@ function formatTime(seconds) {
   return new Date(seconds * 1000).toISOString().substr(11, 8);
 }
 
-
-//Site List
-document.addEventListener("DOMContentLoaded", function(event) {
-  var div = document.getElementById('sites-list')
+function makeTable() {
+  var div = document.getElementById('sites-list');
   var table = document.createElement('TABLE');
   for (var i = 0; i < localStorage.length; i++){
+      //skips non-websites
+      if (!localStorage.key(i).includes('.') ) continue;
       var tr = document.createElement('TR')
       var th = document.createElement('TH');
       var td = document.createElement('TD');
@@ -27,7 +27,19 @@ document.addEventListener("DOMContentLoaded", function(event) {
       td.innerHTML = formatTime(localStorage.getItem(localStorage.key(i)));
       tr.appendChild(th);
       tr.appendChild(td);
+      table.setAttribute('border', '1px');
       table.appendChild(tr);
   }
   div.appendChild(table);
+}
+
+//Site List
+document.addEventListener("DOMContentLoaded", function(event) {
+  //Button code
+  var button = document.getElementById('button');
+  button.addEventListener('click', function() {
+    makeTable();
+    document.getElementById('sites-list').style.display = 'inline';
+    button.style.display = 'none';
+  });
 });

@@ -7,11 +7,16 @@
           body {
             font-family: "Segoe UI", "Lucida Grande", Tahoma, sans-serif;
             font-size: 100%;
+            min-width: 150px;
+            text-align: justify;
           }
           #status {
             /* avoid an excessively wide status text */
+            display: inline;
             overflow: hidden;
-            min-width: 150px;
+          }
+          #sites-list {
+            display: none;
           }
         </style>
         <script src="popup.js"></script>
@@ -21,9 +26,10 @@
       <p id="site-title">Loading...</p>
       <p id="session-timer">Session:</p>
       <p id="lifetime-timer">Lifetime:</p>
-      <a href="sites.html" id="sites-link">List of Sites</a>
     </div>
+    <button type="button" id="button">Display Sites List</button>
     <div id="sites-list">
+      <hr>
     </div>
     </body>
 </html>
